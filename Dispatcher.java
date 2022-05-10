@@ -8,9 +8,9 @@ public class Dispatcher {
 
         int[] bases = {3, 5, 7, 11, 13, 17, 19};
 
-        for (int i = 0; i < bases.length; i++) {
+        for (int basis : bases) {
             for (int j = 2; j < 10; j++) {
-                System.out.println(bases[i] + "^" + j + " -> " + KeysGenerator.keysNum(bases[i], j));
+                System.out.println(basis + "^" + j + " -> " + KeysGenerator.keysNum(basis, j));
             }
         }
         System.out.println();
@@ -23,9 +23,7 @@ public class Dispatcher {
 
         // result
         KeysGenerator keysGenerator = new KeysGenerator(power, base);
-        final long l = System.currentTimeMillis();
         List<int[]> keys = keysGenerator.getKeys();
-        System.out.println(System.currentTimeMillis() - l);
         System.out.println("Number of keys for " + base + "^" + power + ": " + keys.size());
         for (int[] key : keys) {
             System.out.println(Arrays.toString(key));
@@ -98,38 +96,14 @@ class KeysGenerator {
     public List<int[]> getKeys() {
         List<int[]> keys = new ArrayList<>();
         KeyChecker checker;
-        AtomicInteger pair = new AtomicInteger();
 
         for (int i = 0; i < probablyKeys.size(); i++) {
             checker = new KeyChecker(maxKey, base);
             int[] key = probablyKeys.get(i);
-            int foundKeyPair = 0;
 
             if (checker.isKeyValid(key, false)) {
                 keys.add(key);
-
-                if(foundKeyPair != key[0]){
-                    for (int j = 1; j < base; j++) {
-                        int condition = (key[0] * j) % base;
-
-                        if (condition == 1 && key[0] != j) {
-                            pair.set(j);
-                            foundKeyPair = key[0];
-                            probablyKeys.removeIf(s -> s[0] == pair.get());
-                        }
-                    }
-                }
-
-                if (foundKeyPair == key[0]) {
-                    int k = base - pair.get();
-                    int[] pairKey = new int[power];
-                    pairKey[0] = pair.get();
-
-                    for (int p = power - 1; p > 0; p--) {
-                        pairKey[power - p] = (key[p] * k) % base;
-                    }
-                    keys.add(pairKey);
-                }
+                keys.add(checkAndFindPair(key[0]));
             }
         }
         return keys;
@@ -151,6 +125,36 @@ class KeysGenerator {
             if (++lastGeneratedKey[pos] > base - 1)
                 break;
         }
+    }
+
+    public int[] checkAndFindPair(int key){
+        AtomicInteger pair = new AtomicInteger();
+        int foundKeyPair = 0;
+
+        if(foundKeyPair != key){
+            for (int j = 1; j < base; j++) {
+                int condition = (key * j) % base;
+
+                if (condition == 1 && key != j) {
+                    pair.set(j);
+                    foundKeyPair = key;
+                    probablyKeys.removeIf(s -> s[0] == pair.get());
+                }
+            }
+        }
+
+        if (foundKeyPair == key) {
+            int k = base - pair.get();
+            int[] pairKey = new int[power];
+            pairKey[0] = pair.get();
+
+            for (int p = power - 1; p > 0; p--) {
+                pairKey[power - p] = (key * k) % base;
+            }
+            return pairKey;
+        }
+
+        return null;
     }
 
     public static long keysNum(double base, double pow) {
