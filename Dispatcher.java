@@ -25,6 +25,7 @@ public class Dispatcher {
         KeysGenerator keysGenerator = new KeysGenerator(power, base);
         List<int[]> keys = keysGenerator.getKeys();
         System.out.println("Number of keys for " + base + "^" + power + ": " + keys.size());
+
         for (int[] key : keys) {
             System.out.println(Arrays.toString(key));
         }
@@ -56,7 +57,7 @@ class KeyChecker {
             // print sequence if you want
 
             if (debugMode) {
-                System.out.print(phaseArray[0]);
+                System.out.print(res);
             }
 
             for (int j = 0; j < power - 1; ) {
@@ -96,14 +97,13 @@ class KeysGenerator {
     public List<int[]> getKeys() {
         List<int[]> keys = new ArrayList<>();
         KeyChecker checker;
+        checker = new KeyChecker(maxKey, base);
 
         for (int i = 0; i < probablyKeys.size(); i++) {
-            checker = new KeyChecker(maxKey, base);
-            int[] key = probablyKeys.get(i);
-
-            if (checker.isKeyValid(key, false)) {
-                keys.add(key);
-                keys.add(checkAndFindPair(key[0]));
+            if (checker.isKeyValid(probablyKeys.get(i), false)) {
+                keys.add(probablyKeys.get(i));
+                int[] pairKey = checkAndFindPair(probablyKeys.get(i));
+                if (pairKey != null) keys.add(pairKey);
             }
         }
         return keys;
@@ -127,33 +127,32 @@ class KeysGenerator {
         }
     }
 
-    public int[] checkAndFindPair(int key){
+    public int[] checkAndFindPair(int[] key) {
         AtomicInteger pair = new AtomicInteger();
         int foundKeyPair = 0;
 
-        if(foundKeyPair != key){
+        if (foundKeyPair != key[0]) {
             for (int j = 1; j < base; j++) {
-                int condition = (key * j) % base;
+                int condition = (key[0] * j) % base;
 
-                if (condition == 1 && key != j) {
+                if (condition == 1 && key[0] != j) {
                     pair.set(j);
-                    foundKeyPair = key;
+                    foundKeyPair = key[0];
                     probablyKeys.removeIf(s -> s[0] == pair.get());
                 }
             }
         }
 
-        if (foundKeyPair == key) {
+        if (foundKeyPair == key[0]) {
             int k = base - pair.get();
             int[] pairKey = new int[power];
             pairKey[0] = pair.get();
 
             for (int p = power - 1; p > 0; p--) {
-                pairKey[power - p] = (key * k) % base;
+                pairKey[power - p] = (key[p] * k) % base;
             }
             return pairKey;
         }
-
         return null;
     }
 
