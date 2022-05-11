@@ -70,10 +70,7 @@ class KeyChecker {
             }
         }
 
-        if(! Arrays.equals(phaseArray, beginningPhase)){
-            return false;
-        }
-        return true;
+        return Arrays.equals(phaseArray, beginningPhase);
     }
 }
 
