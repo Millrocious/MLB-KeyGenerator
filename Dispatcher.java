@@ -3,8 +3,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Dispatcher {
     public static void main(String[] args) {
-        int base = 5;
-        int power = 7;
+        int base = 7;
+        int power = 3;
 
         int[] bases = {3, 5, 7, 11, 13, 17, 19};
 
@@ -68,6 +68,10 @@ class KeyChecker {
             if (Arrays.equals(phaseArray, beginningPhase) && i < length - power - 1) {
                 return false;
             }
+        }
+
+        if(! Arrays.equals(phaseArray, beginningPhase)){
+            return false;
         }
         return true;
     }
