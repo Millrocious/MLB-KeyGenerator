@@ -3,8 +3,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Dispatcher {
     public static void main(String[] args) {
-        int base = 7;
-        int power = 3;
+        int base = 11;
+        int power = 4;
 
         int[] bases = {3, 5, 7, 11, 13, 17, 19};
 
@@ -79,6 +79,8 @@ class KeysGenerator {
     int power;
     int[] maxKey;
     List<int[]> probablyKeys = new ArrayList<>();
+    AtomicInteger pair = new AtomicInteger();
+    int foundKeyPair = 0;
 
     public KeysGenerator(int power, int base) {
         this.base = base;
@@ -129,22 +131,27 @@ class KeysGenerator {
     }
 
     public int[] checkAndFindPair(int[] key) {
-        AtomicInteger pair = new AtomicInteger();
-        int foundKeyPair = 0;
-
         if (foundKeyPair != key[0]) {
+            int temp = 0;
+
             for (int j = 1; j < base; j++) {
                 int condition = (key[0] * j) % base;
 
                 if (condition == 1 && key[0] != j) {
-                    pair.set(j);
                     foundKeyPair = key[0];
+                    pair.set(j);
                     probablyKeys.removeIf(s -> s[0] == pair.get());
+                    temp = pair.get();
                 }
+            }
+
+            if(foundKeyPair == 0 || temp == 0){
+                foundKeyPair = key[0];
+                pair.set(0);
             }
         }
 
-        if (foundKeyPair == key[0]) {
+        if (foundKeyPair == key[0] && pair.get() > 0) {
             int k = base - pair.get();
             int[] pairKey = new int[power];
             pairKey[0] = pair.get();
