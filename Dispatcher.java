@@ -5,8 +5,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Dispatcher {
     public static void main(String[] args) throws FileNotFoundException {
-        int base = 5;
-        int power = 7;
+        int base = 3;
+        int power = 3;
+
+        FileController.generate();
+        FileController.deleteTempFiles();
 
         // for debug
         KeyChecker debug = new KeyChecker(new int[]{10, 10, 10}, 11);

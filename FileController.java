@@ -7,10 +7,16 @@ public class FileController {
     private static final ArrayList<File> tempFiles = new ArrayList<>();
     private static final ArrayList<PrintWriter> printWriters = new ArrayList<>();
 
-    public void generate() throws FileNotFoundException {
+    public static void generate() throws FileNotFoundException {
         for (int i = 1; i < 5; i++) {
             tempFiles.add(new File("temp"+i));
             printWriters.add(new PrintWriter(tempFiles.get(i-1)));
+        }
+    }
+
+    public static void deleteTempFiles() {
+        for (File temp: tempFiles) {
+            temp.delete();
         }
     }
 
