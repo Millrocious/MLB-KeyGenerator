@@ -1,8 +1,10 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Dispatcher {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         int base = 5;
         int power = 7;
 
