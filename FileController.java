@@ -20,11 +20,11 @@ public class FileController {
         }
     }
 
-    public ArrayList<File> getTempArray() {
+    public static ArrayList<File> getTempArray() {
         return tempFiles;
     }
 
-    public ArrayList<PrintWriter> getWritersArray() {
+    public static ArrayList<PrintWriter> getWritersArray() {
         return printWriters;
     }
 }
