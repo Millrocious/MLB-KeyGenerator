@@ -2,6 +2,7 @@ package Controllers;
 
 import Controllers.KeyChecker;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +42,21 @@ class KeysGenerator {
             }
         }
         return keys;
+    }
+
+    public void writeKeys(PrintWriter pw) {
+        List<int[]> keys = new ArrayList<>();
+        KeyChecker checker;
+        checker = new KeyChecker(maxKey, base);
+        long maxKeyNum = KeysNumFinder.keysNum(base, power);
+
+        for (int i = 0; i < probablyKeys.size(); i++) {
+            if (checker.isKeyValid(probablyKeys.get(i), false)) {
+                pw.println(Arrays.toString(probablyKeys.get(i)));
+                int[] pairKey = checkAndFindPair(probablyKeys.get(i));
+                if (pairKey != null) pw.println(Arrays.toString(pairKey));;
+            }
+        }
     }
 
     public void generatePermutations(int[] maxKey, int pos, int[] lastGeneratedKey) {

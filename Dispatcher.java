@@ -20,12 +20,12 @@ public class Dispatcher {
 
         KeysFinder kF = new KeysFinder(base, power, BasePairsController.generateGenerators(base, power, arrayPairs));
 
+//        long startTime = System.currentTimeMillis();
+//        List<int[]> list = kF.mTFindS(true);
+//        long endTime = System.currentTimeMillis();
         long startTime = System.currentTimeMillis();
-        List<int[]> list = kF.mTFindS(true);
+        kF.mTFindF(true);
         long endTime = System.currentTimeMillis();
-        if (KeysNumFinder.keysNum(base, power) == list.size()) {
-            System.out.println("yes " + list.size());
-        }
         System.out.println("Total execution time: " + ((endTime / 1000)-(startTime / 1000)) + "s");
 
 

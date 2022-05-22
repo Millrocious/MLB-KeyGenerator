@@ -1,11 +1,12 @@
 package Controllers;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.stream.Collectors;
 
 public class KeysFinder {
     int base, power;
+    int[] maxKey;
     HashMap<KeysGenerator, Boolean> keysGenerators;
     ArrayList<int[]> listOfKeys;
     List<int[]> results = new ArrayList<>();
@@ -17,7 +18,51 @@ public class KeysFinder {
         listOfKeys = new ArrayList<>();
     }
 
+    private Callable<Void> toCallable(final Runnable runnable) {
+        return new Callable<Void>() {
+            @Override
+            public Void call() {
+                runnable.run();
+                return null;
+            }
+        };
+    }
+
+    public void mTFindF(boolean isPair) throws InterruptedException, ExecutionException, FileNotFoundException {
+        int counter = (int) keysGenerators.values().stream().filter(s -> s.equals(isPair)).count();
+
+        FileController.generate(counter, isPair);
+        System.out.println(FileController.getWritersArray().size());
+
+        long keysNum = KeysNumFinder.keysNum(base,power);
+        List<Callable<Void>> callables = new ArrayList<>();
+        ExecutorService exs = Executors.newCachedThreadPool();
+        var lambdaContext = new Object() {
+            int c = 0;
+        };
+        for (Map.Entry<KeysGenerator, Boolean> kG : keysGenerators.entrySet()) {
+            if (kG.getValue() == isPair) {
+                exs.execute(() -> {
+                    kG.getKey().writeKeys(FileController.getWritersArray().get(lambdaContext.c));
+                    System.out.println(FileController.getWritersArray().get(lambdaContext.c).toString());
+                    lambdaContext.c++;
+                });
+            }
+        }
+        exs.shutdown();
+        while (!exs.isTerminated()) {
+            exs.awaitTermination(100, TimeUnit.SECONDS);
+        }
+        FileController.closePrintWriters();
+//        if (keysNum != results.size()) {
+//            mTFindS(false);
+//        }
+
+    }
+
     public List<int[]> mTFindS(boolean isPair) throws InterruptedException, ExecutionException {
+        int counter = (int) keysGenerators.values().stream().filter(s -> s.equals(isPair)).count();
+        System.out.println(counter);
         long keysNum = KeysNumFinder.keysNum(base,power);
         ExecutorService exs = Executors.newCachedThreadPool();
         ArrayList<Callable<List<int[]>>> tasks = new ArrayList<>();
