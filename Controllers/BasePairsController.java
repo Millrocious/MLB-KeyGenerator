@@ -1,5 +1,7 @@
 package Controllers;
 
+import View.View;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,13 +29,13 @@ public class BasePairsController {
         return pairs;
     }
 
-    public HashMap<int[], Boolean> generatePairsArray(HashMap<Integer, Boolean> basePair) {
+    public HashMap<int[], Boolean> generatePairsArray(HashMap<Integer, Boolean> basePair, int power) {
         HashMap<int[], Boolean> arrayPairs = new HashMap<>();
         for (Integer entry : basePair.keySet()) {
             if (!basePair.get(entry)) {
-                arrayPairs.put(StartKeyGenerator.generateMinKey(entry), false);
+                arrayPairs.put(StartKeyGenerator.generateMinKey(entry, power), false);
             } else {
-                arrayPairs.put(StartKeyGenerator.generateMinKey(entry), true);
+                arrayPairs.put(StartKeyGenerator.generateMinKey(entry, power), true);
             }
         }
         return arrayPairs;
@@ -42,6 +44,19 @@ public class BasePairsController {
     public void showHashMap(HashMap<int[], Boolean> arrayPairs) {
         for (Map.Entry<int[], Boolean> entry : arrayPairs.entrySet()) {
             System.out.println(Arrays.toString(entry.getKey()) + " " + entry.getValue());
+        }
+    }
+
+    public static void generateGenerators(int base, int power, HashMap<int[], Boolean> arrayPairs) {
+        HashMap<KeysGenerator, Boolean> keysGenerators = new HashMap<>();
+        for (Map.Entry<int[], Boolean> entry : arrayPairs.entrySet()) {
+            if (entry.getValue()) {
+                keysGenerators.put(new KeysGenerator(power, base,
+                        StartKeyGenerator.generateMaxKey(base, power), entry.getKey()), true);
+            } else {
+                keysGenerators.put(new KeysGenerator(power, base,
+                        StartKeyGenerator.generateMaxKey(base, power), entry.getKey()), false);
+            }
         }
     }
 

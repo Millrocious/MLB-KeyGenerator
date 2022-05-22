@@ -1,4 +1,6 @@
-package models;
+package Controllers;
+
+import Controllers.KeyChecker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,12 +27,17 @@ class KeysGenerator {
         List<int[]> keys = new ArrayList<>();
         KeyChecker checker;
         checker = new KeyChecker(maxKey, base);
+        long maxKeyNum = KeysNumFinder.keysNum(base, power);
 
         for (int i = 0; i < probablyKeys.size(); i++) {
             if (checker.isKeyValid(probablyKeys.get(i), false)) {
-                keys.add(probablyKeys.get(i));
-                int[] pairKey = checkAndFindPair(probablyKeys.get(i));
-                if (pairKey != null) keys.add(pairKey);
+                if (!(maxKeyNum == keys.size())) {
+                    keys.add(probablyKeys.get(i));
+                    int[] pairKey = checkAndFindPair(probablyKeys.get(i));
+                    if (pairKey != null) keys.add(pairKey);
+                } else {
+                    return keys;
+                }
             }
         }
         return keys;
@@ -91,7 +98,7 @@ class KeysGenerator {
 
     @Override
     public String toString() {
-        return "models.KeysGenerator{" +
+        return "Controllers.KeysGenerator{" +
                 "base=" + base +
                 ", power=" + power +
                 ", maxKey=" + Arrays.toString(maxKey) +
