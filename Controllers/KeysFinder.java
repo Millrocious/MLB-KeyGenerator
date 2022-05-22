@@ -1,8 +1,14 @@
 package Controllers;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class KeysFinder {
     int base, power;
@@ -28,35 +34,55 @@ public class KeysFinder {
         };
     }
 
-    public void mTFindF(boolean isPair) throws InterruptedException, ExecutionException, FileNotFoundException {
-        int counter = (int) keysGenerators.values().stream().filter(s -> s.equals(isPair)).count();
+    static class NumberedThread implements Runnable {
+        private final int number;
+        private final KeysGenerator kG;
+        public NumberedThread(int number, KeysGenerator kG) {
+            this.number = number;
+            this.kG = kG;
+        }
 
-        FileController.generate(counter, isPair);
+        @Override
+        public void run() {
+            kG.writeKeys(FileController.getWritersArray().get(number));
+        }
+    }
+
+    public void mTFindF(boolean isPair) throws InterruptedException, ExecutionException, IOException {
+        int counter = (int) keysGenerators.values().stream().filter(s -> s.equals(isPair)).count();
+        List<Thread> threadList = new ArrayList<>();
+
+        FileController.generate(counter+1, isPair);
         System.out.println(FileController.getWritersArray().size());
 
         long keysNum = KeysNumFinder.keysNum(base,power);
         List<Callable<Void>> callables = new ArrayList<>();
         ExecutorService exs = Executors.newCachedThreadPool();
-        var lambdaContext = new Object() {
-            int c = 0;
-        };
+        int c = 0;
         for (Map.Entry<KeysGenerator, Boolean> kG : keysGenerators.entrySet()) {
             if (kG.getValue() == isPair) {
-                exs.execute(() -> {
-                    kG.getKey().writeKeys(FileController.getWritersArray().get(lambdaContext.c));
-                    System.out.println(FileController.getWritersArray().get(lambdaContext.c).toString());
-                    lambdaContext.c++;
-                });
+                threadList.add(new Thread(new NumberedThread(c, kG.getKey())));
+                c++;
             }
+        }
+        for (Thread th : threadList) {
+            exs.execute(th);
         }
         exs.shutdown();
         while (!exs.isTerminated()) {
             exs.awaitTermination(100, TimeUnit.SECONDS);
         }
         FileController.closePrintWriters();
-//        if (keysNum != results.size()) {
-//            mTFindS(false);
-//        }
+        int ccc = (int) Arrays.stream(Objects.requireNonNull(new File("Logs/").listFiles())).mapToInt(s -> {
+            try {
+                return (int) Files.lines(Paths.get(s.getPath())).parallel().count();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).sum();
+        if (keysNum != ccc) {
+            mTFindF(false);
+        }
 
     }
 
