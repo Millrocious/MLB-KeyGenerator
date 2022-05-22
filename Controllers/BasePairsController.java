@@ -29,7 +29,7 @@ public class BasePairsController {
         return pairs;
     }
 
-    public HashMap<int[], Boolean> generatePairsArray(HashMap<Integer, Boolean> basePair, int power) {
+    public static HashMap<int[], Boolean> generatePairsArray(HashMap<Integer, Boolean> basePair, int power) {
         HashMap<int[], Boolean> arrayPairs = new HashMap<>();
         for (Integer entry : basePair.keySet()) {
             if (!basePair.get(entry)) {
@@ -47,7 +47,7 @@ public class BasePairsController {
         }
     }
 
-    public static void generateGenerators(int base, int power, HashMap<int[], Boolean> arrayPairs) {
+    public static HashMap<KeysGenerator, Boolean> generateGenerators(int base, int power, HashMap<int[], Boolean> arrayPairs) {
         HashMap<KeysGenerator, Boolean> keysGenerators = new HashMap<>();
         for (Map.Entry<int[], Boolean> entry : arrayPairs.entrySet()) {
             if (entry.getValue()) {
@@ -58,6 +58,7 @@ public class BasePairsController {
                         StartKeyGenerator.generateMaxKey(base, power), entry.getKey()), false);
             }
         }
+        return keysGenerators;
     }
 
     public static void findAll() {

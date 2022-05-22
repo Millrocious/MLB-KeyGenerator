@@ -31,7 +31,7 @@ class KeysGenerator {
 
         for (int i = 0; i < probablyKeys.size(); i++) {
             if (checker.isKeyValid(probablyKeys.get(i), false)) {
-                if (!(maxKeyNum == keys.size())) {
+                if (maxKeyNum != keys.size()) {
                     keys.add(probablyKeys.get(i));
                     int[] pairKey = checkAndFindPair(probablyKeys.get(i));
                     if (pairKey != null) keys.add(pairKey);
