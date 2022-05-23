@@ -24,16 +24,6 @@ public class KeysFinder {
         listOfKeys = new ArrayList<>();
     }
 
-    private Callable<Void> toCallable(final Runnable runnable) {
-        return new Callable<Void>() {
-            @Override
-            public Void call() {
-                runnable.run();
-                return null;
-            }
-        };
-    }
-
     static class NumberedThread implements Runnable {
         private final int number;
         private final KeysGenerator kG;
@@ -110,28 +100,6 @@ public class KeysFinder {
 
         return results;
     }
-
-//    public void mTFind(boolean isPair) throws InterruptedException {
-//        ExecutorService exs = Executors.newCachedThreadPool();
-//
-//        for (Map.Entry<KeysGenerator, Boolean> kG : keysGenerators.entrySet()) {
-//            if (kG.getValue() == isPair) {
-//                exs.execute(() -> {
-//                    synchronized(listOfKeysTS) {
-//                        listOfKeysTS.add(kG.getKey().getKeys());
-//                    }
-//                });
-//            }
-//        }
-//        exs.shutdown();
-//        exs.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-////        if (KeysNumFinder.keysNum(base, power) != listOfKeys.size()) {
-////            mTFind(false);
-////        }
-//
-//        System.out.println(listOfKeys.size());
-//    }
-
 
     public void find(boolean isPair) {
         for (Map.Entry<KeysGenerator, Boolean> kG : keysGenerators.entrySet()) {
