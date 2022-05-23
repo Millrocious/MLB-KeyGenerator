@@ -1,8 +1,5 @@
 package Controllers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class StartKeyGenerator {
 
     public static int[] generateMinKey(int num, int power) {
