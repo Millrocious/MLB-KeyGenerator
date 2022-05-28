@@ -40,7 +40,7 @@ public class KeysFinder {
         List<Thread> threadList = new ArrayList<>();
 
         FileController.generate(counter+1, isPair);
-        System.out.println(FileController.getWritersArray().size());
+        //System.out.println(FileController.getWritersArray().size());
 
         long keysNum = KeysNumFinder.keysNum(base,power);
         List<Callable<Void>> callables = new ArrayList<>();
@@ -111,5 +111,13 @@ public class KeysFinder {
             find(false);
         }
         System.out.println(listOfKeys.size());
+    }
+
+    public void isKeysExist() {
+        HashMap<Integer, Boolean> isExists = new HashMap<>();
+        for (Map.Entry<KeysGenerator, Boolean> kG : keysGenerators.entrySet()) {
+            isExists.put(kG.getKey().probablyKeys.get(0)[0], kG.getKey().checkIsKeysExist());
+        }
+        System.out.println(isExists);
     }
 }

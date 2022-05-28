@@ -42,6 +42,26 @@ class KeysGenerator {
         return keys;
     }
 
+    public boolean checkIsKeysExist() {
+        KeyChecker checker;
+        checker = new KeyChecker(maxKey, base);
+
+        if (base == 3) {
+            for (int i = 0; i < 9; i++) {
+                if (checker.isKeyValid(probablyKeys.get(i), false)) {
+                    return true;
+                }
+            }
+        } else {
+            for (int i = 0; i < 64; i++) {
+                if (checker.isKeyValid(probablyKeys.get(i), false)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void writeKeys(PrintWriter pw) {
         List<int[]> keys = new ArrayList<>();
         KeyChecker checker;
