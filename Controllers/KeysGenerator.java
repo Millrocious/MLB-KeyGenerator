@@ -53,7 +53,7 @@ class KeysGenerator {
                 }
             }
         } else {
-            for (int i = 0; i < 64; i++) {
+            for (int i = 0; i < 9; i++) {
                 if (checker.isKeyValid(probablyKeys.get(i), false)) {
                     return true;
                 }

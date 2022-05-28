@@ -33,13 +33,25 @@ public class BasePairsController {
         HashMap<int[], Boolean> arrayPairs = new HashMap<>();
         for (Integer entry : basePair.keySet()) {
             if (!basePair.get(entry)) {
-                arrayPairs.put(StartKeyGenerator.generateMinKey(entry, power), false);
+                arrayPairs.put(StartKeyGenerator.generateMinKeyWNPos(entry, power), false);
             } else {
-                arrayPairs.put(StartKeyGenerator.generateMinKey(entry, power), true);
+                arrayPairs.put(StartKeyGenerator.generateMinKeyWNPos(entry, power), true);
             }
         }
         return arrayPairs;
     }
+
+//    public static HashMap<int[], Boolean> generatePairsArrayN(HashMap<Integer, Boolean> basePair, int power, int prev, int cur) {
+//        HashMap<int[], Boolean> arrayPairs = new HashMap<>();
+//        for (Integer entry : basePair.keySet()) {
+//            if (!basePair.get(entry)) {
+//                arrayPairs.put(StartKeyGenerator.generateMinKeyWPos(entry, power, prev, cur), false);
+//            } else {
+//                arrayPairs.put(StartKeyGenerator.generateMinKeyWPos(entry, power, prev, cur), true);
+//            }
+//        }
+//        return arrayPairs;
+//    }
 
     public void showHashMap(HashMap<int[], Boolean> arrayPairs) {
         for (Map.Entry<int[], Boolean> entry : arrayPairs.entrySet()) {
@@ -52,10 +64,24 @@ public class BasePairsController {
         for (Map.Entry<int[], Boolean> entry : arrayPairs.entrySet()) {
             if (entry.getValue()) {
                 keysGenerators.put(new KeysGenerator(power, base,
-                        StartKeyGenerator.generateMaxKey(base, power), entry.getKey()), true);
+                        StartKeyGenerator.generateMaxKey(base, power, 0), entry.getKey()), true);
             } else {
                 keysGenerators.put(new KeysGenerator(power, base,
-                        StartKeyGenerator.generateMaxKey(base, power), entry.getKey()), false);
+                        StartKeyGenerator.generateMaxKey(base, power, 0), entry.getKey()), false);
+            }
+        }
+        return keysGenerators;
+    }
+
+    public static HashMap<KeysGenerator, Boolean> generateGeneratorsN(int base, int power, HashMap<int[], Boolean> arrayPairs, int cur, int prev) {
+        HashMap<KeysGenerator, Boolean> keysGenerators = new HashMap<>();
+        for (Map.Entry<int[], Boolean> entry : arrayPairs.entrySet()) {
+            if (entry.getValue()) {
+                keysGenerators.put(new KeysGenerator(power, base,
+                        StartKeyGenerator.generateMaxKey(base, power, 1), entry.getKey()), true);
+            } else {
+                keysGenerators.put(new KeysGenerator(power, base,
+                        StartKeyGenerator.generateMaxKey(base, power, 1), entry.getKey()), false);
             }
         }
         return keysGenerators;

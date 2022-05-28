@@ -8,8 +8,8 @@ import java.util.concurrent.ExecutionException;
 
 public class Dispatcher {
     public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
-        int base = 19;
-        int power = 4;
+        int base = 13;
+        int power = 7;
 
         HashMap<Integer, Boolean> basePair = new HashMap<>(BasePairsController.findOne(base));
         HashMap<int[], Boolean> arrayPairs = new HashMap<>(BasePairsController.generatePairsArray(basePair, power));
@@ -20,16 +20,16 @@ public class Dispatcher {
         KeysFinder kF = new KeysFinder(base, power, BasePairsController.generateGenerators(base, power, arrayPairs));
         kF.isKeysExist();
 
-        new File("Logs/").mkdir();
-        new File("Final/").mkdir();
-        long startTime = System.currentTimeMillis();
-        kF.mTFindF(true);
-        long endTime = System.currentTimeMillis();
-
-
-        FileController.concatFiles();
-
-        System.out.println("Total execution time: " + ((endTime / 1000)-(startTime / 1000)) + "s");
+//        new File("Logs/").mkdir();
+//        new File("Final/").mkdir();
+//        long startTime = System.currentTimeMillis();
+//        kF.mTFindF(true);
+//        long endTime = System.currentTimeMillis();
+//
+//
+//        FileController.concatFiles();
+//
+//        System.out.println("Total execution time: " + ((endTime / 1000)-(startTime / 1000)) + "s");
 
 
     }
