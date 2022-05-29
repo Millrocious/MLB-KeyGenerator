@@ -113,6 +113,19 @@ public class KeysFinder {
         System.out.println(listOfKeys.size());
     }
 
+    public void startFinder () throws IOException, ExecutionException, InterruptedException {
+        new File("../Logs/").mkdir();
+        new File("../Final/").mkdir();
+        long startTime = System.currentTimeMillis();
+        mTFindF(true);
+        long endTime = System.currentTimeMillis();
+
+
+        FileController.concatFiles();
+
+        System.out.println("Total execution time: " + ((endTime / 1000)-(startTime / 1000)) + "s");
+    }
+
     public void isKeysExist() {
         HashMap<Integer, Boolean> isExists = new HashMap<>();
         for (Map.Entry<KeysGenerator, Boolean> kG : keysGenerators.entrySet()) {

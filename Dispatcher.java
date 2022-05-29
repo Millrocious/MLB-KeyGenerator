@@ -1,6 +1,7 @@
 import Controllers.BasePairsController;
-import Controllers.FileController;
 import Controllers.KeysFinder;
+import Controllers.ThreadController;
+import Models.BasePairs;
 import View.View;
 import java.io.*;
 import java.util.*;
@@ -15,24 +16,11 @@ public class Dispatcher {
         HashMap<int[], Boolean> arrayPairs = new HashMap<>(BasePairsController.generatePairsArray(basePair, power));
 
         BasePairsController.findAll();
-        View.show();
-
-
+        //View.show();
 
         KeysFinder kF = new KeysFinder(base, power, BasePairsController.generateGenerators(base, power, arrayPairs));
-        //kF.isKeysExist();
+        //kF.startFinder();
 
-        new File("Logs/").mkdir();
-        new File("Final/").mkdir();
-        long startTime = System.currentTimeMillis();
-        kF.mTFindF(true);
-        long endTime = System.currentTimeMillis();
-
-
-        FileController.concatFiles();
-
-        System.out.println("Total execution time: " + ((endTime / 1000)-(startTime / 1000)) + "s");
-
-
+        ThreadController.start();
     }
 }
