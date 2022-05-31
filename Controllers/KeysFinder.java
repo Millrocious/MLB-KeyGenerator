@@ -10,11 +10,11 @@ import java.util.concurrent.*;
 public class KeysFinder {
     int base, power;
     int[] maxKey;
-    HashMap<KeysGenerator, Boolean> keysGenerators;
+    Map<KeysGenerator, Boolean> keysGenerators;
     ArrayList<int[]> listOfKeys;
     List<int[]> results = new ArrayList<>();
 
-    public KeysFinder(int base, int power, HashMap<KeysGenerator, Boolean> keysGenerators) {
+    public KeysFinder(int base, int power, Map<KeysGenerator, Boolean> keysGenerators) {
         this.base = base;
         this.power = power;
         this.keysGenerators = keysGenerators;

@@ -12,15 +12,15 @@ public class Dispatcher {
         int base = 13;
         int power = 6;
 
-        HashMap<Integer, Boolean> basePair = new HashMap<>(BasePairsController.findOne(base));
-        HashMap<int[], Boolean> arrayPairs = new HashMap<>(BasePairsController.generatePairsArray(basePair, power));
+        Map<Integer, Boolean> basePair = new HashMap<>(BasePairsController.findOne(base));
+        Map<int[], Boolean> arrayPairs = new HashMap<>(BasePairsController.generatePairsArray(basePair, power));
 
-        BasePairsController.findAll();
+        //BasePairsController.findAll();
         //View.show();
 
-        KeysFinder kF = new KeysFinder(base, power, BasePairsController.generateGenerators(base, power, arrayPairs));
+        //KeysFinder kF = new KeysFinder(base, power, BasePairsController.generateGenerators(base, power, arrayPairs));
         //kF.startFinder();
 
-        ThreadController.start();
+        ThreadController.calculate();
     }
 }
