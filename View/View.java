@@ -2,7 +2,7 @@ package View;
 
 import java.util.ArrayList;
 
-public class View {
+public final class View {
     public static ArrayList<String> messages = new ArrayList<>();
 
     public static void show() {
