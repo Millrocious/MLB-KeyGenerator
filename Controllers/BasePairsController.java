@@ -1,7 +1,9 @@
 package Controllers;
 
+import Models.KeysGenerator;
 import View.View;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +39,26 @@ public class BasePairsController {
                         Map.Entry::getValue));
     }
 
+    public static Map<Integer, int[]> generatePairsArray(HashMap<Integer, ArrayList<Integer>> basePair, int power) {
+        int counter = 0;
+        Map<Integer, int[]> tempMap = new HashMap<>();
+        for (Map.Entry<Integer, ArrayList<Integer>> entry : basePair.entrySet()) {
+            tempMap.put(entry.getKey(), StartKeyGenerator.generateMinKeyWNPos(entry.getValue().get(counter), power));
+            counter++;
+        }
+        return tempMap;
+    }
+
+    public static Map<Integer, int[]> generatePairsArray(HashMap<Integer, ArrayList<ArrayList<Integer>>> basePair, int power, int pair) {
+        int counter = 0;
+        Map<Integer, int[]> tempMap = new HashMap<>();
+        for (Map.Entry<Integer, ArrayList<ArrayList<Integer>>> entry : basePair.entrySet()) {
+            tempMap.put(entry.getKey(), StartKeyGenerator.generateMinKeyWNPos(entry.getValue().get(pair).get(counter), power));
+            counter++;
+        }
+        return tempMap;
+    }
+
     public static void showHashMap(HashMap<int[], Boolean> arrayPairs) {
         arrayPairs.forEach((key, value) -> System.out.println(Arrays.toString(key) + " " + value));
     }
@@ -49,6 +71,13 @@ public class BasePairsController {
         return arrayPairs.entrySet().stream()
                 .collect(Collectors.toMap(
                         k -> new KeysGenerator(power, base, StartKeyGenerator.generateMaxKey(base, power, 0), k.getKey()),
+                        Map.Entry::getValue));
+    }
+
+    public static Map<KeysGenerator, Boolean> generateGeneratorsWD(int base, int power, Map<int[], Boolean> arrayPairs) {
+        return arrayPairs.entrySet().stream()
+                .collect(Collectors.toMap(
+                        k -> new KeysGenerator(power, base, StartKeyGenerator.generateMaxKey(base, power, 1), k.getKey()),
                         Map.Entry::getValue));
     }
 

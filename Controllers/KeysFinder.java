@@ -1,5 +1,8 @@
 package Controllers;
 
+import View.KeysNumFinder;
+import Models.KeysGenerator;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -113,7 +116,7 @@ public class KeysFinder {
         System.out.println(listOfKeys.size());
     }
 
-    public void startFinder () throws IOException, ExecutionException, InterruptedException {
+    public void startFinderWithFiles () throws IOException, ExecutionException, InterruptedException {
         new File("../Logs/").mkdir();
         new File("../Final/").mkdir();
         long startTime = System.currentTimeMillis();
@@ -122,6 +125,14 @@ public class KeysFinder {
 
 
         FileController.concatFiles();
+
+        System.out.println("Total execution time: " + ((endTime / 1000)-(startTime / 1000)) + "s");
+    }
+
+    public void startFinder () throws ExecutionException, InterruptedException {
+        long startTime = System.currentTimeMillis();
+        mTFindS(true);
+        long endTime = System.currentTimeMillis();
 
         System.out.println("Total execution time: " + ((endTime / 1000)-(startTime / 1000)) + "s");
     }

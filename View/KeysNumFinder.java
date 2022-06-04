@@ -1,4 +1,4 @@
-package Controllers;
+package View;
 
 public class KeysNumFinder {
     private final int[] bases = {3, 5, 7, 11, 13, 17, 19};

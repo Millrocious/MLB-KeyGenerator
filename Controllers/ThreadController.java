@@ -10,16 +10,16 @@ public class ThreadController {
     int power = 3;
 
     public static void start() {
-        int cores = Runtime.getRuntime().availableProcessors();
-        System.out.println("You have: " + cores);
-
-        for (Map.Entry<ArrayList<?>, Boolean> entry : BasePairs.basePair.entrySet()) {
-            if ((entry.getKey().size() % 2) == 0 ) {
-                System.out.println("Divides " + entry.getKey());
-            } else {
-                System.out.println("Not divides " + entry.getKey());
-            }
-        }
+//        int cores = Runtime.getRuntime().availableProcessors();
+//        System.out.println("You have: " + cores);
+//
+//        for (Map.Entry<ArrayList<?>, Boolean> entry : BasePairs.basePair.entrySet()) {
+//            if ((entry.getKey().size() % 2) == 0 ) {
+//                System.out.println("Divides " + entry.getKey());
+//            } else {
+//                System.out.println("Not divides " + entry.getKey());
+//            }
+//        }
     }
 
     // 2**** -> (21*** 22*** 23*** 24***) <-> 5
@@ -55,21 +55,48 @@ public class ThreadController {
     // + +--------+ +----------------------------------------------------------------------------------------------------------------------------------------------------+
     // n -> number of pairs, c -> number of cores, p-1 -> number of all possible variants
     // n = 4, c = 8, p-1 = 16, res = 2 for 8 cores and res = 1 for 4 cores
-    //
+    // 14 | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
+    // 14 | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
+    // 14 | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
+    // 14 | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
+    // 14 | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
     public static void calculate() {
-        int n = 4;
+        int n = 5;
         int c = 8;
-        int p = 16;
+        int p = 22;
 
         if (c % n == 0) {
             if (p % (c / n) == 0) {
                 System.out.println("Yes number of parts = " + c / n);
             } else {
-                System.out.println("No, the remainder = " + p % (c / n));
+                System.out.println("No, the remainder = " + p % (4 / n));
             }
         } else {
+            if (c < n) {
+                System.out.println("No, n bigger than core num, so don't divide");
+            } else if (p % 2 == 0) {
+                System.out.println("No, number of parts = " + p / 2);
+            }
+        }
+    }
 
-            System.out.println("No");
+    public static void calculate2() {
+        int n = 5;
+        int c = 8;
+        int p = 22;
+
+        if (c % n == 0) {
+            if (p % (c / n) == 0) {
+                System.out.println("Yes number of parts = " + c / n);
+            } else {
+                System.out.println("No, the remainder = " + p % (4 / n));
+            }
+        } else {
+            if (c <= n) {
+                System.out.println("No, n bigger than core num, so don't divide");
+            } else if (p % 2 == 0) {
+                System.out.println("No, number of parts = " + p / 2);
+            }
         }
     }
 }

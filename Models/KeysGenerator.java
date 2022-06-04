@@ -1,4 +1,7 @@
-package Controllers;
+package Models;
+
+import Controllers.KeyChecker;
+import View.KeysNumFinder;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -6,11 +9,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-class KeysGenerator {
+public class KeysGenerator {
     int base;
     int power;
     int[] maxKey;
-    List<int[]> probablyKeys = new ArrayList<>();
+    public List<int[]> probablyKeys = new ArrayList<>();
     AtomicInteger pair = new AtomicInteger();
     int keyPair = 0;
 
@@ -132,7 +135,7 @@ class KeysGenerator {
 
     @Override
     public String toString() {
-        return "Controllers.KeysGenerator{" +
+        return "Models.KeysGenerator{" +
                 "base=" + base +
                 ", power=" + power +
                 ", maxKey=" + Arrays.toString(maxKey) +

@@ -12,6 +12,9 @@ public class Dispatcher {
         int base = 13;
         int power = 6;
 
+        Map<Integer, Boolean> basePair1 = new HashMap<>();
+
+
         Map<Integer, Boolean> basePair = new HashMap<>(BasePairsController.findOne(base));
         Map<int[], Boolean> arrayPairs = new HashMap<>(BasePairsController.generatePairsArray(basePair, power));
 

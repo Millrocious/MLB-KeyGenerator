@@ -2,7 +2,7 @@ package Controllers;
 
 import java.util.Arrays;
 
-class KeyChecker {
+public class KeyChecker {
     int[] phaseArray;
     int base;
     int power;
@@ -25,7 +25,6 @@ class KeyChecker {
             res %= base;
 
             // print sequence if you want
-
             if (debugMode) {
                 System.out.print(res);
             }

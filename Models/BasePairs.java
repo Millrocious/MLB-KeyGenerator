@@ -15,10 +15,21 @@ public final class BasePairs {
             new ArrayList<>(Arrays.asList(2, 3, 14)),
             new ArrayList<>(Arrays.asList(4, 6, 9))));
 
-    public static final HashMap<ArrayList<?>, Boolean> basePair = new HashMap<ArrayList<?>, Boolean>() {{
-        put(basePair7, false);
-        put(basePair11, true);
-        put(basePair13, false);
-        put(basePair19, true);
+    private static final HashMap<Integer, ArrayList<Integer>> basePair = new HashMap<>() {{
+        put(7, basePair7);
+        put(13, basePair13);
+        put(17, basePair17);
     }};
+    private static final HashMap<Integer, ArrayList<ArrayList<Integer>>> basePairN = new HashMap<>() {{
+        put(11, basePair11);
+        put(19, basePair19);
+    }};
+
+    public static HashMap<Integer, ArrayList<ArrayList<Integer>>> getHashMapN() {
+        return basePairN;
+    }
+
+    public static HashMap<Integer, ArrayList<Integer>> getHashMap() {
+        return basePair;
+    }
 }
