@@ -1,9 +1,9 @@
 package View;
 
-public class KeysNumFinder {
+public class KeysNumTable {
     private final int[] bases = {3, 5, 7, 11, 13, 17, 19};
 
-    public void countKeys() {
+    public void displayTable() {
         for (int basis : bases) {
             for (int j = 2; j < 10; j++) {
                 System.out.println(basis + "^" + j + " -> " + keysNum(basis, j));

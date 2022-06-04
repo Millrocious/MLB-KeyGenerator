@@ -1,7 +1,7 @@
 package Models;
 
 import Controllers.KeyChecker;
-import View.KeysNumFinder;
+import View.KeysNumTable;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class KeysGenerator {
         List<int[]> keys = new ArrayList<>();
         KeyChecker checker;
         checker = new KeyChecker(maxKey, base);
-        long maxKeyNum = KeysNumFinder.keysNum(base, power);
+        long maxKeyNum = KeysNumTable.keysNum(base, power);
 
         for (int i = 0; i < probablyKeys.size(); i++) {
             if (checker.isKeyValid(probablyKeys.get(i), false)) {
@@ -69,7 +69,7 @@ public class KeysGenerator {
         List<int[]> keys = new ArrayList<>();
         KeyChecker checker;
         checker = new KeyChecker(maxKey, base);
-        long maxKeyNum = KeysNumFinder.keysNum(base, power);
+        long maxKeyNum = KeysNumTable.keysNum(base, power);
 
         for (int i = 0; i < probablyKeys.size(); i++) {
             if (checker.isKeyValid(probablyKeys.get(i), false)) {

@@ -1,6 +1,6 @@
 package Controllers;
 
-import View.KeysNumFinder;
+import View.KeysNumTable;
 import Models.KeysGenerator;
 
 import java.io.File;
@@ -45,7 +45,7 @@ public class KeysFinder {
         FileController.generate(counter+1, isPair);
         //System.out.println(FileController.getWritersArray().size());
 
-        long keysNum = KeysNumFinder.keysNum(base,power);
+        long keysNum = KeysNumTable.keysNum(base,power);
         List<Callable<Void>> callables = new ArrayList<>();
         ExecutorService exs = Executors.newCachedThreadPool();
         int c = 0;
@@ -79,7 +79,7 @@ public class KeysFinder {
     public List<int[]> mTFindS(boolean isPair) throws InterruptedException, ExecutionException {
         int counter = (int) keysGenerators.values().stream().filter(s -> s.equals(isPair)).count();
         System.out.println(counter);
-        long keysNum = KeysNumFinder.keysNum(base,power);
+        long keysNum = KeysNumTable.keysNum(base,power);
         ExecutorService exs = Executors.newCachedThreadPool();
         ArrayList<Callable<List<int[]>>> tasks = new ArrayList<>();
         for (Map.Entry<KeysGenerator, Boolean> kG : keysGenerators.entrySet()) {
@@ -110,7 +110,7 @@ public class KeysFinder {
                 }
             }
         }
-        if (KeysNumFinder.keysNum(base, power) != listOfKeys.size()) {
+        if (KeysNumTable.keysNum(base, power) != listOfKeys.size()) {
             find(false);
         }
         System.out.println(listOfKeys.size());
